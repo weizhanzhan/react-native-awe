@@ -1,0 +1,12 @@
+{
+  "name": "app-awe",
+  "displayName": "app-awe",
+  "expo": {
+    "name": "app-awe",
+    "slug": "app-awe",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
