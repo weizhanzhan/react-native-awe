@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,SafeAreaView,SectionList,Image ,TouchableHighlight,StatusBar} from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView,SectionList,Image ,TouchableHighlight,StatusBar,TouchableOpacity} from 'react-native';
 import Constants from "expo-constants";
 import pxToDp from '../../pxToDp'
 import {navigation} from 'react-navigation'
@@ -24,14 +24,14 @@ export default function App(props) {
         <View style={styles.menuRow}>
           <Text style={styles.menuTitle}>TPM</Text>
           <View style={styles.menuBox}>
-            <TouchableHighlight onPress = { test } activeOpacity={100}>
+            <TouchableOpacity onPress = { test } activeOpacity={100}>
               <View style={styles.menuItem}>
                 <View style={styles.menuItemBox}>
                   <Image style={styles.menuImage} source={require("../../assets/images/am.png")}></Image>
                   <Text style={styles.menuSub}>自主保全</Text>
                 </View>
               </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
             <View style={styles.menuItem}>
               <View style={styles.menuItemBox}>
                 <Image style={styles.menuImage} source={require("../../assets/images/achievements.png")}></Image>
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     width: pxToDp(100),
     height:pxToDp(100),
     borderColor:'#d3d2d9',
-    borderWidth:pxToDp(1),
+    borderWidth:pxToDp(0.5),
     borderRadius:8,
     padding:pxToDp(10),
     margin:pxToDp(6)
