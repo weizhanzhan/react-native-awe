@@ -1,18 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, View,StatusBar ,Text,SafeAreaView,TouchableHighlight,Button} from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign';
-// export default AmPage = (props)=>{
-
-  
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <StatusBar barStyle={'dark-content'}></StatusBar>
-//       <Text>Am</Text>
-//         <Button title="famji" onPress={()=>{props.navigation.pop()}}>
-//         </Button>
-//     </SafeAreaView>
-//   )
-// }
 
 export default class AmPage extends React.Component{
   // 定义页面的导航属性
