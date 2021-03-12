@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View,SafeAreaView,SectionList,Image ,TouchableHighlight,StatusBar,TouchableOpacity} from 'react-native';
 import Constants from "expo-constants";
-import pxToDp from '../../pxToDp'
+import pxToDp from '../../utils/pxToDp'
 import {navigation} from 'react-navigation'
 
 export default function App(props) {

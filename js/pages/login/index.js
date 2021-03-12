@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { StyleSheet, View,Image ,Text,SafeAreaView,TouchableHighlight} from 'react-native'
 import { Button,ThemeProvider } from 'react-native-elements'
-import pxToDp from '../../pxToDp'
+import pxToDp from '../../utils/pxToDp'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 import request from '../../utils/request'
+import NavigationUtil from '../../navigator/NavigationUtils'
+import AsyncStorage from '@react-native-community/async-storage';
 export default class LoginPage extends React.Component{
 
   state = {
@@ -17,18 +19,23 @@ export default class LoginPage extends React.Component{
   }
 
   render(){
+    NavigationUtil.navigation = this.props.navigation;
     const theme = {
       Button: {
         buttonStyle:{
           backgroundColor:'#3f60ee',
           height:pxToDp(48),
-          borderRadius:pxToDp(6)
+          borderRadius:pxToDp(6),
+          fontSize:pxToDp(16)
         }
       },
       Input:{
         inputContainerStyle:{
           borderColor:'#e8e7ea',
-          borderBottomWidth:pxToDp(1)
+          borderBottomWidth:pxToDp(1),
+        },
+        inputStyle:{
+          fontSize:pxToDp(16)
         },
         leftIconContainerStyle:{
           paddingRight:pxToDp(16)
@@ -37,7 +44,7 @@ export default class LoginPage extends React.Component{
     };
     return (
       <ThemeProvider theme={theme}>
-         <View style={styles.container}>
+        <View style={styles.container}>
           <Image style={styles.headerImage} source={require("../../assets/images/login-header.png")}></Image>
           <View style={styles.InputContainer}>
             <Input
@@ -47,7 +54,7 @@ export default class LoginPage extends React.Component{
               placeholder='请输入用户名'
               errorMessage={this.state.userNameErrorMsg}
               renderErrorMessage={true}
-              leftIcon={{ type: 'font-awesome', name: 'user',color:'#3f60ee'  }}
+              leftIcon={{ type: 'font-awesome', name: 'user',color:'#3f60ee',size:pxToDp(20)  }}
             />
             <Input
               ref={ this.state.passwordInput}
@@ -55,13 +62,14 @@ export default class LoginPage extends React.Component{
               value={this.state.password}
               errorMessage={this.state.passwordErrorMsg}
               placeholder='请输入密码'
-              leftIcon={{ type: 'font-awesome', name: 'lock',color:'#3f60ee' }}
+              leftIcon={{ type: 'font-awesome', name: 'lock',color:'#3f60ee',size:pxToDp(20) }}
             />
           </View>
-          <Button title="登 录" style={styles.submitBtn} onPress={this.submit.bind(this)}></Button>
+          <View style={styles.btnContainer}>
+            <Button title="登 录" style={styles.submitBtn} onPress={this.submit.bind(this)}></Button>
+          </View>
         </View>    
       </ThemeProvider>
-     
     )
   }
 
@@ -72,28 +80,34 @@ export default class LoginPage extends React.Component{
       this.state.userInput.current.shake();
       return
     }else{
-       this.setState({ userNameErrorMsg:'' })
+      this.setState({ userNameErrorMsg:'' })
     }
     if(password==""){
       this.setState({ passwordErrorMsg:'请输入密码' })
       this.state.passwordInput.current.shake();
       return
     }else{
-       this.setState({
+      this.setState({
         passwordErrorMsg:''
       })
     }
 
     request({
-      method:'pot',
+      method:'post',
       url:'/sys/login',
       params:{
-        username: 2,
-        password: 2,
+        username: 'admin',
+        password: 'admin',
         drivceImei: 865231041923595
       }
     }).then((result) => {
-      console.log(1)
+      console.log(1,result)
+      if(request.message){
+        global.toast(result.message)
+      }else{
+        AsyncStorage.setItem('token',`bearer ${result.access_token}`)
+        NavigationUtil.goPage({},'BottomNavigator')
+      }
     }).catch((err) => {
       console.log(2,err)
     });
@@ -113,8 +127,10 @@ const styles = StyleSheet.create({
     width:'100%',
     height:pxToDp(228)
   },
+  btnContainer:{
+    padding:pxToDp(24),
+  },
   submitBtn:{
-    margin:pxToDp(24),
     marginTop:pxToDp(65),
   }
 })
